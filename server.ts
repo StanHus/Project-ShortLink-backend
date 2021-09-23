@@ -23,7 +23,7 @@ pool.connect();
 
 app.get('/', async (req, res) => {
   const links = await pool.query(
-    "SELECT oldlink, newlink FROM links ORDER BY id LIMIT 10"
+    "SELECT oldlink, newlink FROM links ORDER BY id desc LIMIT 10"
   );
   res.json(links.rows)
 })
