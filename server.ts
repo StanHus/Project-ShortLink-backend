@@ -13,14 +13,6 @@ const dbConfig = {
   ssl: sslSetting,
 };
 
-// const pool = new Pool({
-//   "host": "localhost",
-//   "port": 5432,
-//   "user":"postgres",
-//   "password" : "password",
-//   "database" : "project_shortlink"
-// })
-
 const app = express();
 
 app.use(express.json()); //add body parser to each following route handler
@@ -52,8 +44,6 @@ app.get('/:newLink', async (req, res) => {
         newLink: "Couldnt find the website with this link"
       }})
     }
-  // window.location.href('http://www.example.com/newlocation')
-  // res.json(dbres.rows);
 });
 
 
@@ -61,7 +51,7 @@ app.post("/", async (req, res) => { //main page
   try {
     const { input } = req.body;
     const id = nanoid(4)
-    const url = `http://localhost:5000/${id}`
+    const url = `https://warm-brushlands-45153.herokuapp.com/${id}`
     const ans = await pool.query(
       "INSERT INTO links (oldlink, newlink_id, newlink) VALUES($1, $2, $3) RETURNING oldlink, newlink",
       [input, id, url]
@@ -72,16 +62,11 @@ app.post("/", async (req, res) => { //main page
   }
 });
 
-//Start the server on the given port
-// const port = process.env.PORT;
-// if (!port) {
-//   throw 'Missing PORT environment variable.  Set it in .env file.';
-// }
-// app.listen(port, () => {
-//   console.log(`Server is up and running on port ${port}`);
-// });
-
-
-app.listen(5000, () => {
-  console.log(`Server is up and running on port ${5000}`);
+const port = process.env.PORT;
+if (!port) {
+  throw 'Missing PORT environment variable.  Set it in .env file.';
+}
+app.listen(port, () => {
+  console.log(`Server is up and running on port ${port}`);
 });
+
