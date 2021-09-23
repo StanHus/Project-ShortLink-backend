@@ -21,11 +21,6 @@ app.use(cors()) //add CORS support to each following route handler
 const pool = new Pool(dbConfig);
 pool.connect();
 
-app.get("/", async (req, res) => {
-  const dbres = await pool.query('select * from links');
-  res.json(dbres.rows);
-});
-
 app.get('/:newLink', async (req, res) => {
   const newLink = req.params.newLink
   const urlJson = await pool.query(
