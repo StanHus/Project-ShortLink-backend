@@ -22,7 +22,10 @@ const pool = new Pool(dbConfig);
 pool.connect();
 
 app.get('/', async (req, res) => {
-  res.send("Nothng to display, try posting the link first")
+  const links = await pool.query(
+    "SELECT oldlink, newlink FROM links ORDER BY id LIMIT 10"
+  );
+  res.json(links.rows)
 })
 
 app.get('/:newLink', async (req, res) => {
